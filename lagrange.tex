@@ -1,0 +1,136 @@
+%test.tex
+\documentclass{article}
+\usepackage{CJKutf8}
+\usepackage{amsmath}
+\begin{CJK}{UTF8}{gbsn}
+\title{拉格朗日对偶与KKT条件}
+\author{布衣之莠}
+\begin{document}
+\maketitle
+\section{问题提出:}
+\subsection{问题1:}
+有下面最优化问题:
+\begin{equation}
+\min f(x) \tag{1.1.1}
+\end{equation}
+\begin{equation}
+s.t. \quad h_j(x)=0\tag{1.1.2}
+\end{equation} 
+\begin{equation}
+g_k(x) \le 0  \tag{1.1.3}
+\end{equation}
+\\
+\\
+\subsection{问题2:}
+在问题1的情况下,定义
+\begin{equation}
+L(x,\mu,\lambda)=f(x)+\sum_j\mu_jh_j(x)+\sum_k\lambda_kg_k(x) \tag{1.2.1}
+\end{equation}
+其中$\mu_j$任意取值，$\lambda_k \ge 0$，那么，把$L$看做$x,\mu,\lambda$的三元函数，将有
+\begin{equation}
+f(x)=\max_{\mu,\lambda;\lambda_k \ge 0}L(x,\mu,\lambda) \tag{1.2.2}
+\end{equation}
+所以问题１的解决可由下式给出:
+\begin{equation}
+\min_x f(x)= \min_x \max_{\mu,\lambda;\lambda_k\ge 0}L(x,\mu,\lambda) \tag{1.2.3}
+\end{equation}
+\\
+\\
+\subsection{问题3:}
+定义函数$J(x,\mu,\lambda)$,那么有下面弱对偶性质(weak duality):
+\begin{equation}
+\max_{\mu,\lambda}\min_xJ\le \min_x\max_{\mu,\lambda}J\ \tag{1.3.1}
+\end{equation}
+\section{问题讨论:}
+\subsection{先讨论问题１和问题２之间的关系:}
+问题２中只有１个约束就是$\lambda_k \ge 0$。那么怎么得出(1.2.2)呢?\\
+考虑
+\begin{equation}
+\max_{\mu,\lambda;\lambda_k\ge 0}L(x,\mu,\lambda)=\max_{\mu,\lambda;\lambda_k\ge 0}[f(x)+\sum_j\mu_jh_j(x)+\sum_k\lambda_kg_k(x)] \tag{2.1.1}
+\end{equation}
+
+如果最大值存在，那么公式(2.1.1)中$h_j(x)=0$,否则由于$\mu_j$的任意性，总能使$L(x,\mu_j,\lambda_k)\rightarrow \infty$(只要取$\mu_j$和$h_j(x)$同号且足够大)。而且有$g_k(x)\le 0$,否则若$g_k(x)>0$,在符合约束条件下取$\lambda_k$无限大，总能使$L(x,\mu_j,\lambda_k)\rightarrow \infty$，所以公式2.1.1的第三项小于等于０，考虑到求$L(x,\mu,\lambda)$最大值,第三项只有取零。这样一来，可以看到如果公式(2.1.1)存在最大值，那么第二项和第三项都是0,即可得到
+\begin{equation}
+f(x)=\max_{\mu,\lambda;\lambda_k \ge 0}L(x,\mu,\lambda) \tag{2.2.2}
+\end{equation}
+这样问题１就转化到问题２，可以得到公式(1.2.3)
+\\
+\subsection{单独讨论问题３:}
+令
+\begin{equation}
+D_1(\mu,\lambda)=\min_xJ(x,\mu,\lambda) \tag{2.2.1}
+\end{equation}
+\begin{equation}
+D_2(x)=\max_{\mu,\lambda}J(x,\mu,\lambda) \tag{2.2.2}
+\end{equation}
+如果上面两式定义的最值都存在，根据上面两式定义:
+\begin{equation}
+D_1(\mu,\lambda) \le J(x,\mu,\lambda) \le D_2(x) \tag{2.2.3}
+\end{equation}
+公式(2.2.3)表面对于任意的$\mu,\lambda$，任意的$x$都有$D_1(\mu,\lambda) \le L(x,\mu,\lambda) \le D_2(x)$,所以有下面:
+\begin{equation}
+\max_{\mu,\lambda}D_1(\mu,\lambda) \le \min_{x}D_2(x) \tag{2.2.4}
+\end{equation}
+即:
+\begin{equation}
+\max_{\mu,\lambda}\min_xJ\le \min_x\max_{\mu,\lambda}J\ \tag{2.2.5}
+\end{equation}
+这样弱对偶性质就解释了。为了说明问题３和问题１,2无关，我们用$J$代替$L$，下面我们替代回去，即:
+\begin{equation}
+\max_{\mu,\lambda}\min_xL\le \min_x\max_{\mu,\lambda}L\ \tag{2.2.5}
+\end{equation}\\
+\subsection{问题３的结论应用于解决问题２，间接也就解决问题１:}
+求解原问题公式(1.2.3)的对偶形式为:
+\begin{equation}
+\max_{\mu,\lambda;\lambda_k \ge 0}D_1(\mu,\lambda)=\max_{\mu,\lambda;\lambda_k \ge 0}\min_{x}L(x,\mu,\lambda) \tag{2.3.1}
+\end{equation}
+我们讨论问题２时只是给出了原问题(1.2.3)的下界是公式(2.3.1)。
+引入强对偶性，强对偶性是指公式(2.2.5)取等号，这样求解原问题就完全转化为求解对偶问题了。\\
+\textbf{slater条件:}(1)原始问题为凸优化问题(2)$\exists x \quad  s.t. \quad g_k(x)<0$
+\\对于问题１，如果slatter条件成立，那么满足强对偶性，这是强对偶的充分条件。\\
+对于问题１，假设$x^*$是原问题(不一定是凸)最优解,$\mu^*,\lambda^*$是对偶问题的最优解
+那么，如果强对偶性成立，有下式
+\begin{equation}
+\begin{split}
+f(x^*)=D_2(x^*)=D_1(\mu^*,\lambda^*)\qquad\\
+	 =\min_{x}f(x)+\sum_j\mu_j^*h_j(x)+\sum_k\lambda_k^*g_k(x)\\
+	 \le f(x^*)+\sum_j\mu_j^*h_j(x^*)+\sum_k\lambda_k^*g_k(x^*)\le f(x^*)
+\end{split}
+\end{equation}
+分析上式，第一个等号成立来源于问题(2)的结论，第二个等号成立源于满足强对偶性，第三个等号源于$\mu^*,\lambda^*$是$D_1(\mu,\lambda)$的解，第一个$\le$是源于$D_1(\mu,\lambda)$的定义，第二个$\le$是因为问题１的约束条件$h_j(x)=0,g_j(x) \le 0$以及讨论问题２给出的$\lambda_k \ge 0$。所以公式(1)不等号可以全换成等号，因为$x^*$是$D_2(x)$的极值点，所以有
+\begin{equation}
+\nabla_{x^*}L(x,\mu^*,\lambda^*)=0  \tag{2.3.2}
+\end{equation}
+根据公式(1)第二个不等号以及$h_j(x^*)=0$,有:
+\begin{equation}
+\lambda_k^*g_k(x^*)=0 \tag{2.3.3}
+\end{equation}
+和问题１给出的约束条件联合起来，得到kkt条件:
+\begin{equation}
+\nabla_{x}L(x,\mu,\lambda)=0  \tag{2.3.4}
+\end{equation}
+\begin{equation}
+\lambda_kg_k(x)=0 \tag{2.3.5}
+\end{equation}
+\begin{equation}
+h_j(x)=0 \tag{2.3.6}
+\end{equation}
+\begin{equation}
+g_k(x) \le 0 \tag{2.3.7}
+\end{equation}
+\begin{equation}
+\lambda_k \ge 0 \tag{2.3.8}
+\end{equation}
+这样我们在满足强对偶性时推出kkt条件，也就是说kkt条件是强对偶性的必要条件。\\
+当原始问题是凸优化问题时，设$\mu^*,\lambda^*$是$D_1$的解，$x^*$是$D_2$的解，结合kkt条件可以推出强对偶性。如下:
+\begin{equation}
+D_1(\mu^*,\lambda^*)=\min_x(x,\mu,\lambda)=L(x^*,\mu^*,\lambda^*)
+=f(x^*)+\sum_j\mu_j^*h_j(x^*)+\sum_k\lambda_kg_k^*(x^*)=f(x^*) \tag{2.3.9}
+\end{equation}
+分析上式，第一个等号是因为$\mu^*,\lambda^*$是$D_1$的解，第二个等式是因为$x^*$是$D_2$的解，第三个等式是定义，第四个是带入kkt条件。\\
+对于问题１，以上说明了kkt条件是强对偶性的充要条件。
+\\\\
+\section{参考资料:}
+https://www.cnblogs.com/ooon/p/5723725.html
+\end{CJK}
+\end{document}
