@@ -150,8 +150,9 @@ h_1∼p(h|v_1) v_2∼p(v|h_1) \\
 \includegraphics[width=0.8\linewidth]{3.png}
 \caption{CD-K算法}
 \end{figure}\\
-参考:\href{http://lib.csdn.net/article/deeplearning/59097?knId=1746}{限制波尔兹曼机}\\
-参考:\href{http://deeplearning.net/tutorial/rbm.html#rbm}{限制波尔兹曼机}
+参考:\\
+\href{http://lib.csdn.net/article/deeplearning/59097?knId=1746}{限制波尔兹曼机}\\
+\href{http://deeplearning.net/tutorial/rbm.html#rbm}{深度学习教程theano实现限制波尔兹曼机}
 \subsection{DBN}
 Deep Brief Network
 
@@ -181,7 +182,8 @@ DAE(Denoising Autoencoder)的核心思想是，一个能够从中恢复出原始
 \includegraphics[width=0.8\linewidth]{5.png}
 \caption{Denosing AE}
 \end{figure}\\
-参考:\href{https://www.researchgate.net/publication/221346269_Extracting_and_composing_robust_features_with_denoising_autoencoders}{Extracting and Composing Robust Features with
+参考:\\
+\href{https://www.researchgate.net/publication/221346269_Extracting_and_composing_robust_features_with_denoising_autoencoders}{Extracting and Composing Robust Features with
 Denoising Autoencoders}
 \subsection{Stacked AE }
 SAE:AE逐层堆叠, layer-wise unsuperwised pre-training 
@@ -217,7 +219,8 @@ $
 $
 这里， $\textstyle s_2 $是隐藏层中隐藏神经元的数量，而索引 $\textstyle j$ 依次代表隐藏层中的每一个神经元。
 \\
-参考:\href{http://deeplearning.stanford.edu/wiki/index.php/Autoencoders_and_Sparsity}{UFLDL Tutorial}
+参考:\\
+\href{http://deeplearning.stanford.edu/wiki/index.php/Autoencoders_and_Sparsity}{UFLDL Tutorial}
 \subsection{Variational AE}
 变分自编码器
 贝叶斯神经网络和变分推断
@@ -283,14 +286,70 @@ def loss_function(recon_x, x, mu, logvar):
     return BCE + KLD
 
 \end{lstlisting}
-
-参考:\href{https://arxiv.org/pdf/1312.6114.pdf}{Auto-Encoding Variational Bayes}\\
-参考:\href{https://arxiv.org/pdf/1606.05908.pdf}{Tutorial on Variational Autoencoders} \\
-参考:\href{https://blog.csdn.net/zb1165048017/article/details/81773660}{变分自编码器}
+参考:\\
+\href{https://arxiv.org/pdf/1312.6114.pdf}{Auto-Encoding Variational Bayes}\\
+\href{https://arxiv.org/pdf/1606.05908.pdf}{Tutorial on Variational Autoencoders} \\
+\href{https://blog.csdn.net/zb1165048017/article/details/81773660}{变分自编码器}
 \section{聚类}
-Cluster
+Cluster，这一类了解的比较多，先搁置
 \section{降维}
 Dimensionality reduction
+SVD，PCA，ICA，LDA，NMF先搁置
+\subsection{字典学习}
+稀疏表示:\\
+假设我们用一个M*N的矩阵表示数据集X，每一行代表一个样本，每一列代表样本的一个属性，一般而言，该矩阵是稠密的，即大多数元素不为0。稀疏表示的含义是，寻找一个系数矩阵W（K*N）以及一个字典矩阵D（M*K），使得D*W尽可能的还原X，且W尽可能的稀疏。W便是X的稀疏表示。
+周志华老师写的《机器学习》这本书上原文：“为普通稠密表达的样本找到合适的字典，将样本转化为合适的稀疏表达形式，从而使学习任务得以简化，模型复杂度得以降低，通常称为‘字典学习’（dictionary learning），亦称‘稀疏编码’（sparse coding）”
+\begin{figure}[h]
+\centering
+\includegraphics[height=0.4\linewidth]{9.png}
+\caption{字典学习}
+\end{figure}\\
+表达为优化问题为
+\begin{equation}
+\min_{D,W} \sum_i \parallel x_i-DW_I \parallel_2^2+\lambda \sum_i \parallel W_i \parallel_1  \tag{5.1.1}
+\end{equation}
+上式中第一个累加项说明了字典学习的第一个目标是字典矩阵与稀疏表示的线性组合尽可能的还原样本；第二个累加项说明了alphai应该尽可能的稀疏。之所以用L1范式是因为L1范式正则化更容易获得稀疏解。原因可参考\href{https://blog.csdn.net/zouxy09/article/details/24971995/}{机器学习中的正则化}\\
+该算法包含两个阶段:字典构建阶段（Dictionary Generate）和利用字典表示样本阶段（Sparse coding with a precomputed dictionary）。求解字典学习最优化问题的步骤为:\\
+1.初始化字典D优化稀疏采样W。\\ 
+2.在优化后的W上更新字典D。\\ 
+重复上述两步，求得最终D以及X的稀疏表示W。\\
+\begin{figure}[h]
+\centering
+\includegraphics[height=0.4\linewidth]{10.png}
+\caption{更新算法}
+\end{figure}\\
+参考:\\
+\href{https://blog.csdn.net/baidu_38060633/article/details/70338345}{稀疏表示与字典学习}\\
+\href{https://blog.csdn.net/hjimce/article/details/50810129}{字典学习与k-svd算法}\\
+\href{https://scikit-learn.org/stable/modules/decomposition.html#dictionary-learning}{sklearn字典学习}
+\subsection{流形学习}
+非线性降维,可以参考周志华的机器学习中算法的详细步骤，此处给出基本思想。\\
+流形:局部区域与欧式空间同胚的拓扑空间(连续的变换最后都能变成一样的两个物体，称为同胚，Homeomorphism)。
+流形上的点本身是没有坐标的，所以为了表示这些数据点，我们把流形放入到外围空间(ambient space)，用外围空间上的坐标来表示流形上的点，例如三维空间 $R^3$ 中球面是一个2维曲面，即球面上只有两个自由度，但我们一般采用外围空间$R^3$ 空间中的坐标来表示这个球面。
+流行学习可以概括为：在保持流形上点的某些几何性质特征的情况下，找出一组对应的内蕴坐标(intrinsic coordinate)，将流形尽量好的展开在低维平面上，这种低维表示也叫内蕴特征(intrinsic feature)，外围空间的维数叫观察维数，其表示叫自然坐标，在统计上称为observation。流形学习假设所处理的数据点分布在嵌入于外维欧式空间的一个潜在的流形体上，或者说这些数据点可以构成这样一个潜在的流形体。假设数据是均匀采样于一个高维欧氏空间中的低维流形，流形学习就是从高维采样数据中恢复低维流形结构，即找到高维空间中的低维流形，并求出相应的嵌入映射，以实现维数约简或者数据可视化。\\
+\textbf{ MDS(Multidimensional Scaling)多维尺度变换}\\
+MDS的基本思想：约简后低维空间中任意两点间的距离应该与它们在原高维空间中的距离相同\\
+参考:\\
+\href{http://www.cnblogs.com/tanjuntao/p/8067748.html}{MDS实现}\\
+\textbf{ISOMAP(Isometric feature mapping)等度量映射}\\
+MDS算法的变种，其思想和MDS一样，只不过在计算高维空间的距离时是采用测地距离的，而不是无法真实的表达两点之间的欧式距离\\
+\begin{figure}[h]
+\centering
+\includegraphics[height=0.4\linewidth]{11.png}
+\caption{ISOMAP算法}
+\end{figure}\\
+\textbf{LLE(Locally Linear Embedding) 局部线性嵌入}\\
+局部线性嵌入的思想：只是试图去保持领域内样本之间的关系。具体如下图所示，样本从高维空间映射到低维空间后，各个领域内的样本之间的线性关系不变。
+\begin{figure}[h]
+\centering
+\includegraphics[height=0.4\linewidth]{13.png}
+\caption{LLE算法}
+\end{figure}\\
+即样本点$x_i$的坐标能通过它的领域样本$x_j$，$x_l$，$x_k$重构出来，$x_i=w_{ij}x_j+w_{il}x_l+w_{ik}x_k$而这里的权值参数在低维和高维空间是一致的。\\
+\textbf{LE (Laplacian Eigenmaps) 拉普拉斯特征映射}\\
+基本思想:在高维空间中离的很近的点投影到低维空间中也应该离得很近。LE方法在黎曼几何的框架内，用邻接图来描述一个流形，并在映射到低维空间的过程中，保持了图的局部邻接关系。LE的基本思想就是用一个无向有权图来描述一个流形，然后通过用图的嵌入（graph embedding）来找低维表示。简单来说，就是保持图的局部邻接关系的情况把这个图从高维空间中重新画在一个低维空间中（graph drawing）。
+\subsection{T-SNE}
+看看这篇吧!\href{http://bindog.github.io/blog/2016/06/04/from-sne-to-tsne-to-largevis/}{从SNE到t-SNE再到LargeVis}
 \section{对抗生成网络}
 GAN
 \end{CJK}
