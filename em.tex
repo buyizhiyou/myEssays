@@ -102,7 +102,7 @@ L(\theta)=\sum_j \sum_k \gamma_{jk} \log \frac{p(y_j|\theta_k)}{\gamma_{jk}}=\su
 \begin{equation}
 L(\theta)=\sum_j \sum_k \gamma_{jk}[\log \alpha_k+\log(\frac{1}{\sqrt{2\pi}})-\log \sigma_k-\frac{(y-\mu_k)^2}{2\sigma_k^2}-\log \gamma_{jk}] \tag {3.1.5}
 \end{equation}
-在约束$\sigma_k \alpha_k=1$下对(3.1.5)进行最小化，可以利用lagrange乘子法求解此约束优化问题。
+在约束$\sum_k \alpha_k=1$下对(3.1.5)进行最小化，可以利用lagrange乘子法求解此约束优化问题。
 令:
 \begin{equation}
 H(\theta)=L(\theta)+\lambda(\sum_k\alpha_k-1)　  \tag{3.1.6}
