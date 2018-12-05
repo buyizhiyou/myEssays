@@ -61,7 +61,7 @@ L(\theta)=\sum_j \log \sum_i Q_j(z_i) \frac{p(y_j,z_i|\theta)}{Q_j(z_i)} \ge
 \end{equation}
 所以,
 \begin{equation}
-Q_j(z_i)=\frac{p(y_j,z_i|\theta}{C}=\frac{p(y_j,z_i|\theta)}{\sum_ip(y_j,z_i| \theta)} \tag{2.1.8}
+Q_j(z_i)=\frac{p(y_j,z_i|\theta)}{C}=\frac{p(y_j,z_i|\theta)}{\sum_ip(y_j,z_i| \theta)} \tag{2.1.8}
 \end{equation}
 (2.1.8)给出了我们引入的$Q_j(z_i)$的表达式。\\
 EM算法：\\
@@ -83,11 +83,11 @@ t = t+1 \tag{2.1.11}
 \section{EM算法求解GMM模型：}
 把上面的EM算法应用于求解我们第一步提出的问题。\\
 \begin{equation}
-L(\theta)=\sum_j \log p(y_j| \theta)=\sum_j \log \sum_k \alpha_k p(y_j|\theta_k)=\sum_j \log \sum_k \gamma_{jk} \frac{p(y_j|\theta_k)}{\gamma_{jk}} \tag{3.1.1}
+L(\theta)=\sum_j \log p(y_j| \theta)=\sum_j \log \sum_k \alpha_k p(y_j|\theta_k)=\sum_j \log \sum_k \gamma_{jk} \frac{\alpha_k p(y_j|\theta_k)}{\gamma_{jk}} \tag{3.1.1}
 \end{equation}
 由Jensen不等式:
 \begin{equation}
-L(\theta) \ge \sum_j \sum_k \gamma_{jk} \log \frac{p(y_j|\theta_k}{\gamma_{jk}} \tag{3.1.2}
+L(\theta) \ge \sum_j \sum_k \gamma_{jk} \log \frac{\alpha_k p(y_j|\theta_k)}{\gamma_{jk}} \tag{3.1.2}
 \end{equation}
 利用EM算法可以知道当
 \begin{equation}
@@ -105,7 +105,7 @@ L(\theta)=\sum_j \sum_k \gamma_{jk}[\log \alpha_k+\log(\frac{1}{\sqrt{2\pi}})-\l
 在约束$\sigma_k \alpha_k=1$下对(3.1.5)进行最小化，可以利用lagrange乘子法求解此约束优化问题。
 令:
 \begin{equation}
-H(\theta)=L(\theta)+\lambda(\sum_k\alpha_k-1)　\tag{3.1.6}
+H(\theta)=L(\theta)+\lambda(\sum_k\alpha_k-1)　  \tag{3.1.6}
 \end{equation}
 \begin{equation}
 \frac{\partial{H(\theta)}}{\partial{\alpha_k}}=0 \tag{3.1.7}
